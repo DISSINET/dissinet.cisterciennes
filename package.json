@@ -9,5 +9,8 @@
   "devDependencies": {
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.88.0"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
   }
 }

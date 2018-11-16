@@ -1,0 +1,13 @@
+{
+  "name": "dissinet.cisterciennes",
+  "version": "0.0.1",
+  "description": "scrapping and analysing cisterciennes wiki table",
+  "main": "index.js",
+  "repository": "git@github.com:adammertel/dissinet.cisterciennes.git",
+  "author": "adammertel <mertel.adam@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.88.0"
+  }
+}

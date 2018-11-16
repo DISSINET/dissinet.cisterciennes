@@ -10,6 +10,22 @@ const url =
 request(url, function (err, resp, html) {
   if (!err) {
     const $ = cheerio.load(html)
+
+    const columnNames = [
+      'N°note',
+      'Nom',
+      'link',
+      'Coordonnées - x',
+      'Coordonnées - y',
+      'Commune',
+      'Département',
+      'Diocèse',
+      'Famille',
+      'Date début',
+      'Date fin'
+    ]
+
+    writer.writeRecord(columnNames)
     $('table.wikitable.sortable tbody').find('tr').map((ri, row) => {
       // if (ri < 10) {
       // row

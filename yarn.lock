@@ -469,3 +469,8 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+ya-csv@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/ya-csv/-/ya-csv-0.10.1.tgz#5f6edc2858ee59056d7821aae4eb51d0d3bbda06"
+  integrity sha1-X27cKFjuWQVteCGq5OtR0NO72gY=

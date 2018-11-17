@@ -2,7 +2,8 @@ var request = require('request')
 var cheerio = require('cheerio')
 var csv = require('ya-csv')
 
-var writer = csv.createCsvFileWriter('out.csv', { flags: '' })
+var monasteriesW = csv.createCsvFileWriter('monasteries.csv', { flags: '' })
+var ordersW = csv.createCsvFileWriter('orders.csv', { flags: '' })
 
 const url =
   'https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France'
@@ -12,59 +13,87 @@ request(url, function (err, resp, html) {
     const $ = cheerio.load(html)
 
     const columnNames = [
-      'N°note',
-      'Nom',
+      'name',
       'link',
-      'Coordonnées - x',
-      'Coordonnées - y',
-      'Commune',
-      'Département',
-      'Diocèse',
-      'Famille',
-      'Date début',
-      'Date fin'
+      'x',
+      'y',
+      'commune',
+      'département',
+      'diocèse'
     ]
 
-    writer.writeRecord(columnNames)
+    monasteriesW.writeRecord(columnNames)
     $('table.wikitable.sortable tbody').find('tr').map((ri, row) => {
       // if (ri < 10) {
       // row
 
-      const rowValues = []
-      $(row).find('td').map((ci, column) => {
+      const monasteryRow = []
+      const columns = $(row).find('td')
+      columns.map((ci, column) => {
         // name and link
         if (ci === 1) {
           // name
-          rowValues.push($(column).text())
+          monasteryRow.push($(column).text())
 
           // link
-          rowValues.push(
+          monasteryRow.push(
             'https://fr.wikipedia.org' + $(column).find('a').attr('href')
           )
         } else if (ci === 2) {
           // lat lng
-          rowValues.push($(column).find('a').data('lat'))
-          rowValues.push($(column).find('a').data('lon'))
-        } else if (ci === 7 || ci === 8) {
-          rowValues.push(
+          parseFloat(monasteryRow.push($(column).find('a').data('lat')), 10)
+          parseFloat(monasteryRow.push($(column).find('a').data('lon')), 10)
+
+          /*
+        else if (ci === 7 || ci === 8) {
+          monasteryRow.push(
             $(column)
               .html()
               .split('<br>')
               .map(t => {
-                return t
+                return ts
                   .replace('<b>', '')
                   .replace('</b>', '')
                   .replace('-', '?')
               })
               .join('-')
           )
-        } else {
-          rowValues.push($(column).text())
+          */
+          // regions
+        } else if (ci === 3 || ci === 4 || ci === 5) {
+          monasteryRow.push($(column).find('a').text())
         }
       })
-      writer.writeRecord(rowValues)
+
+      const ordersHtml = $(columns[6]).html()
+      const yearsFromHtml = $(columns[7]).html()
+      const yearsToHtml = $(columns[8]).html()
+      if (ordersHtml && yearsFromHtml && yearsToHtml) {
+        const orders = splitColumn(ordersHtml, $)
+        const yearsFrom = splitColumn(yearsFromHtml, $)
+        const yearsTo = splitColumn(yearsToHtml, $)
+
+        if (
+          orders.length !== yearsFrom.length ||
+          orders.length !== yearsTo.length
+        ) {
+          console.log(orders, yearsFrom, yearsTo)
+        }
+      }
+
+      monasteriesW.writeRecord(monasteryRow)
       // }
     })
   }
-  writer.writeStream.end()
+
+  monasteriesW.writeStream.end()
+  ordersW.writeStream.end()
 })
+
+var splitColumn = (html, $) => {
+  const htmlArray = html.split('<br>')
+  return htmlArray.map(line => {
+    const wrapped = '<span>' + line + '</span>'
+    return $(wrapped).text()
+  })
+}

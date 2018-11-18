@@ -12,7 +12,8 @@ request(url, function (err, resp, html) {
   if (!err) {
     const $ = cheerio.load(html)
 
-    const columnNames = [
+    const monasteriesCols = [
+      'id',
       'name',
       'link',
       'x',
@@ -21,13 +22,16 @@ request(url, function (err, resp, html) {
       'département',
       'diocèse'
     ]
+    const ordersCols = ['monastery_id', 'name', 'from', 'to']
 
-    monasteriesW.writeRecord(columnNames)
+    monasteriesW.writeRecord(monasteriesCols)
+    ordersW.writeRecord(ordersCols)
+
     $('table.wikitable.sortable tbody').find('tr').map((ri, row) => {
       // if (ri < 10) {
       // row
 
-      const monasteryRow = []
+      const monasteryRow = [ri]
       const columns = $(row).find('td')
       columns.map((ci, column) => {
         // name and link
@@ -44,21 +48,6 @@ request(url, function (err, resp, html) {
           parseFloat(monasteryRow.push($(column).find('a').data('lat')), 10)
           parseFloat(monasteryRow.push($(column).find('a').data('lon')), 10)
 
-          /*
-        else if (ci === 7 || ci === 8) {
-          monasteryRow.push(
-            $(column)
-              .html()
-              .split('<br>')
-              .map(t => {
-                return ts
-                  .replace('<b>', '')
-                  .replace('</b>', '')
-                  .replace('-', '?')
-              })
-              .join('-')
-          )
-          */
           // regions
         } else if (ci === 3 || ci === 4 || ci === 5) {
           monasteryRow.push($(column).find('a').text())
@@ -81,6 +70,10 @@ request(url, function (err, resp, html) {
           yearsFrom.push(yearsFrom[yearsFrom.length - 1])
           yearsTo.push(yearsTo[yearsTo.length - 1])
         }
+
+        orders.map((order, oi) => {
+          ordersW.writeRecord([ri, orders[oi], yearsFrom[oi], yearsTo[oi]])
+        })
       }
 
       monasteriesW.writeRecord(monasteryRow)

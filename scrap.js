@@ -18,6 +18,7 @@ request(url, function (err, resp, html) {
       'link',
       'x',
       'y',
+      'gender',
       'commune',
       'département',
       'diocèse'
@@ -30,6 +31,15 @@ request(url, function (err, resp, html) {
     $('table.wikitable.sortable tbody').find('tr').map((ri, row) => {
       // if (ri < 10) {
       // row
+      let gender = 'mixed'
+      const color = $(row).css('background')
+      if (color) {
+        if (color.substr(1, 2) === 'FF') {
+          gender = 'female'
+        } else if (color.substr(5, 2) === 'FF') {
+          gender = 'male'
+        }
+      }
 
       const monasteryRow = [ri]
       const columns = $(row).find('td')
@@ -76,7 +86,10 @@ request(url, function (err, resp, html) {
         })
       }
 
-      monasteriesW.writeRecord(monasteryRow)
+      if (monasteryRow.length > 5) {
+        monasteryRow.splice(5, 0, gender)
+        monasteriesW.writeRecord(monasteryRow)
+      }
       // }
     })
   }

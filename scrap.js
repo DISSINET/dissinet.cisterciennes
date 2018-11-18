@@ -1,9 +1,17 @@
 var request = require('request')
 var cheerio = require('cheerio')
 var csv = require('ya-csv')
+var csvtojson = require('csvtojson')
+var fs = require('fs')
 
-var monasteriesW = csv.createCsvFileWriter('monasteries.csv', { flags: '' })
-var ordersW = csv.createCsvFileWriter('orders.csv', { flags: '' })
+var outputPath = 'app/data/'
+var monasteriesPath = outputPath + 'monasteries'
+var ordersPath = outputPath + 'orders'
+
+var monasteriesW = csv.createCsvFileWriter(monasteriesPath + '.csv', {
+  flags: ''
+})
+var ordersW = csv.createCsvFileWriter(ordersPath + '.csv', { flags: '' })
 
 const url =
   'https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France'
@@ -55,8 +63,8 @@ request(url, function (err, resp, html) {
           )
         } else if (ci === 2) {
           // lat lng
-          parseFloat(monasteryRow.push($(column).find('a').data('lat')), 10)
           parseFloat(monasteryRow.push($(column).find('a').data('lon')), 10)
+          parseFloat(monasteryRow.push($(column).find('a').data('lat')), 10)
 
           // regions
         } else if (ci === 3 || ci === 4 || ci === 5) {
@@ -96,6 +104,14 @@ request(url, function (err, resp, html) {
 
   monasteriesW.writeStream.end()
   ordersW.writeStream.end()
+
+  csvtojson().fromFile(ordersPath + '.csv').then(jsonRes => {
+    fs.writeFile(ordersPath + '.json', JSON.stringify(jsonRes))
+  })
+
+  csvtojson().fromFile(monasteriesPath + '.csv').then(jsonRes => {
+    fs.writeFile(monasteriesPath + '.json', JSON.stringify(jsonRes))
+  })
 })
 
 var splitColumn = (html, $) => {

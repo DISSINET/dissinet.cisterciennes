@@ -8,6 +8,7 @@
   "license": "MIT",
   "devDependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "csvtojson": "^2.0.8",
     "request": "^2.88.0",
     "ya-csv": "^0.10.1"
   },

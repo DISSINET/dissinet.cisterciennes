@@ -73,11 +73,13 @@ request(url, function (err, resp, html) {
         const yearsFrom = splitColumn(yearsFromHtml, $)
         const yearsTo = splitColumn(yearsToHtml, $)
 
-        if (
-          orders.length !== yearsFrom.length ||
-          orders.length !== yearsTo.length
-        ) {
-          console.log(orders, yearsFrom, yearsTo)
+        // cleaning invalid inputs
+        if (orders.length < yearsFrom.length) {
+          orders.push(orders[orders.length - 1])
+        }
+        if (orders.length > yearsFrom.length) {
+          yearsFrom.push(yearsFrom[yearsFrom.length - 1])
+          yearsTo.push(yearsTo[yearsTo.length - 1])
         }
       }
 

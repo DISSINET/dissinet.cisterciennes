@@ -16,16 +16,16 @@ var orders = Object.values(ordersJSON);
 
 console.log(monasteries);
 
-if (document.body) {
-  document.body.innerHTML = '';
+if (document.body && document.getElementById('map')) {
+  document.getElementById('map').outerHTML = '';
 }
 
 var data = [];
 var map = false;
 
 var colors = {
-  male: '#2c7bb6',
-  female: '#d7191c',
+  monks: '#2c7bb6',
+  nuns: '#d7191c',
   mixed: '#ffffbf'
 };
 var colorScale = chroma.scale([colors.male, colors.mixed, colors.female]);

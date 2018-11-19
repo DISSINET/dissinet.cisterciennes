@@ -1,9 +1,15 @@
+@import '~bulma/bulma';
+
 #map {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.modal {
+  z-index: 10000;
 }
 
 .marker-icon-wrapper {
@@ -22,10 +28,11 @@
   }
 }
 
-$color-marker-icon-halo: white;
+$color-marker-icon-halo: black;
 $color-marker-icon-radius: 1px;
 .marker-icon-wrapper span {
-  line-height: 32px !important;
+  line-height: 28px !important;
+  color: white;
   text-align: center;
   font-size: 12px;
   font-weight: 900;

@@ -18,6 +18,7 @@ console.log(monasteries);
 
 if (document.body && document.getElementById('map')) {
   document.getElementById('map').outerHTML = '';
+  document.getElementById('welcome').outerHTML = '';
 }
 
 var data = [];
@@ -28,13 +29,38 @@ var colors = {
   nuns: '#d7191c',
   mixed: '#ffffbf'
 };
-var colorScale = chroma.scale([colors.male, colors.mixed, colors.female]);
+var colorScale = chroma.scale([colors.monks, colors.mixed, colors.nuns]);
+
+var closeModal = e => {
+  e.preventDefault();
+  document.getElementById('welcome').outerHTML = '';
+};
+
+var modal =
+  '<div class="modal is-active ">' +
+  '<div class="modal-background"></div>' +
+  '<div class="modal-card is-primary">' +
+  '<header class="modal-card-head">' +
+  '<p class="modal-card-title">Cistercian monasteries in France</p>' +
+  '</header>' +
+  '<section class="modal-card-body">' +
+  'Interactive map of Cistercian monasteries in France taken from the <a href="https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France?fbclid=IwAR0AnumWZLXqD1NwnfJBjzi-n-FIIHJFIlvhVd8wetJouUjVwwDJBZrkUe0">wikipedia page</a>.' +
+  'The color of the marker represents the community that occupied the monastery (monks are in blue, nuns are in red, mixed monastery is in yellow).' +
+  '<div style="margin-top: 10px"><button id="continue-button" class="button is-success">continue</button></div>' +
+  '</section>' +
+  '</div>';
 
 var init = () => {
   // crate map div
   const mapEl = document.createElement('div');
   mapEl.setAttribute('id', 'map');
   document.body.appendChild(mapEl);
+
+  const welcomeEl = document.createElement('div');
+  welcomeEl.setAttribute('id', 'welcome');
+  document.body.appendChild(welcomeEl);
+  welcomeEl.innerHTML = modal;
+  document.getElementById('continue-button').onclick = closeModal;
 
   data = prepareData();
   console.log(data);
@@ -68,9 +94,9 @@ var init = () => {
   ).addTo(map);
 
   const genderScore = {
-    male: 0,
+    monks: 0,
     mixed: 0.5,
-    female: 1
+    nuns: 1
   };
 
   const clusters = L.markerClusterGroup({

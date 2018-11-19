@@ -72,6 +72,7 @@ var init = () => {
     mixed: 0.5,
     female: 1
   };
+
   const clusters = L.markerClusterGroup({
     showCoverageOnHover: false,
     spiderLegPolylineOptions: { opacity: 0 },
@@ -101,6 +102,40 @@ var init = () => {
     }
   });
 
+  const createPopup = (monastery: {}) => {
+    return (
+      '<div class="popup">' +
+      // name
+      '<div class="heading">' +
+      monastery.name +
+      // gender
+      ' (<span style="color: ' +
+      colors[monastery.gender] +
+      '">' +
+      monastery.gender +
+      '</span>)' +
+      '</div>' +
+      // orders
+      '<div class="orders">orders:' +
+      monastery.orders
+        .map(order => {
+          return (
+            '<div class="order"> - ' +
+            order.name +
+            ' (' +
+            order.from +
+            '-' +
+            order.to +
+            ')' +
+            '</div>'
+          );
+        })
+        .join('') +
+      '</div>' +
+      '</div>'
+    );
+  };
+
   data
     .filter(monastery => monastery.valid)
     .forEach(monastery => {
@@ -112,7 +147,7 @@ var init = () => {
         color: 'black',
         weight: 1.5,
         gender: monastery.gender
-      });
+      }).bindPopup(createPopup(monastery));
       clusters.addLayer(marker);
     });
 

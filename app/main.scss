@@ -15,6 +15,13 @@
   opacity: 0.6 !important;
 }
 
+.popup {
+  .heading {
+    font-weight: 800;
+    margin-bottom: 5;
+  }
+}
+
 $color-marker-icon-halo: white;
 $color-marker-icon-radius: 1px;
 .marker-icon-wrapper span {

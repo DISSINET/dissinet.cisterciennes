@@ -43,9 +43,9 @@ request(url, function (err, resp, html) {
       const color = $(row).css('background')
       if (color) {
         if (color.substr(1, 2) === 'FF') {
-          gender = 'female'
+          gender = 'nuns'
         } else if (color.substr(5, 2) === 'FF') {
-          gender = 'male'
+          gender = 'monks'
         }
       }
 

@@ -4,7 +4,7 @@ Interactive map of Cistercian monasteries in France, date are taken from [fr.wik
 
 **scrap.js**
 
-- scrapping data from the wikipedia table with [cheeriojs])(https://github.com/cheeriojs) and generates [csv](https://github.com/koles/ya-csv) and [json](https://www.npmjs.com/package/csvtojson) files
+- scrapping data from the wikipedia table with [cheeriojs](https://github.com/cheeriojs) and generates [csv](https://github.com/koles/ya-csv) and [json](https://www.npmjs.com/package/csvtojson) files
 
 **./app**
 

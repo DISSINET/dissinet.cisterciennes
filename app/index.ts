@@ -8,6 +8,7 @@ import './../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 import chroma from 'chroma-js';
 import L from 'leaflet';
+import * as d3 from 'd3';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster.placementstrategies';
 
@@ -18,7 +19,9 @@ console.log(monasteries);
 
 if (document.body && document.getElementById('map')) {
   document.getElementById('map').outerHTML = '';
-  document.getElementById('welcome').outerHTML = '';
+  if (document.getElementById('welcome')) {
+    document.getElementById('welcome').outerHTML = '';
+  }
 }
 
 var data = [];
@@ -34,6 +37,7 @@ var colorScale = chroma.scale([colors.monks, colors.mixed, colors.nuns]);
 var closeModal = e => {
   e.preventDefault();
   document.getElementById('welcome').outerHTML = '';
+  document.getElementById('pie').innerHTML = '';
 };
 
 var modal =
@@ -67,8 +71,6 @@ var init = () => {
   document.getElementById('continue-button').onclick = closeModal;
 
   data = prepareData();
-  console.log(data);
-
   // initialise map
   map = L.map('map', {
     center: [47, 2],
@@ -103,31 +105,81 @@ var init = () => {
     nuns: 1
   };
 
+  const pie = d3.pie().value(function(d) {
+    return d.number;
+  });
+
+  const arc = radius =>
+    d3
+      .arc()
+      .outerRadius(radius)
+      .innerRadius(0);
+
   const clusters = L.markerClusterGroup({
     showCoverageOnHover: false,
     spiderLegPolylineOptions: { opacity: 0 },
 
-    iconCreateFunction: cluster => {
+    iconCreateFunction: (cluster, ci) => {
+      console.log(cluster);
       const markers = cluster.getAllChildMarkers();
       const single = markers.length === 1;
 
-      let averageGender = 0;
-      markers.forEach(marker => {
-        averageGender += genderScore[marker.options.gender];
-      });
+      const radius = 15;
+      const m = 1.5;
+      const svgSize = (radius + m) * 2;
 
-      const color = colorScale(averageGender / markers.length);
+      let genders = [
+        { name: 'monks', number: 0 },
+        { name: 'nuns', number: 0 },
+        { name: 'mixed', number: 0 }
+      ];
+      markers.forEach(marker => {
+        const gender = genders.find(g => g.name === marker.options.gender);
+        if (gender) {
+          gender.number += 1;
+        }
+      });
+      const arcs = pie(genders);
+
+      const wrapperEl = document.getElementById('pie');
+      const svgEl = document.createElement('svg');
+      svgEl.setAttribute('id', 'pie' + cluster._leaflet_id);
+      //wrapperEl.appendChild(svgEl);
+
+      const svg = d3
+        .select(svgEl)
+        .attr('width', svgSize)
+        .attr('height', svgSize)
+        .append('g')
+        .attr(
+          'transform',
+          'translate(' + svgSize / 2 + ', ' + svgSize / 2 + ')'
+        );
+
+      svg.append('circle').attr('r', radius + m);
+
+      const g = svg
+        .selectAll('arc')
+        .data(arcs)
+        .enter()
+        .append('g')
+        .style('fill', d => {
+          return colors[d.data.name];
+        })
+        .attr('class', 'arc');
+
+      g.append('path').attr('d', arc(radius));
+      svg
+        .append('text')
+        .text(markers.length)
+        .attr('class', 'cluster-text')
+        .attr('dy', 4);
 
       return L.divIcon({
-        html:
-          '<div class="marker-icon-wrapper" style="background-color: ' +
-          color +
-          '"><span>' +
-          markers.length +
-          '</span></div>',
+        html: svgEl.outerHTML,
         className:
           'marker-icon ' + (single ? 'marker-single' : 'marker-cluster'),
-        iconSize: L.point(40, 40)
+        iconSize: L.point(radius * 2, radius * 2)
       });
     }
   });

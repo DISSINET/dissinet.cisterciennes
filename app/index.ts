@@ -75,7 +75,9 @@ var init = () => {
   map = L.map('map', {
     center: [47, 2],
     zoom: 7,
-    maxZoom: 12
+    maxZoom: 12,
+    minZoom: 5,
+    maxBounds: [[40, -10], [60, 10]]
   });
 
   // add a awmc tilelayer
@@ -86,6 +88,7 @@ var init = () => {
       className: 'map-base-layer map-base-layer-awmc'
     }
   ).addTo(map);
+
   L.tileLayer(
     'https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}',
     {

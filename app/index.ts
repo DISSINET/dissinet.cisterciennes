@@ -3,8 +3,12 @@ import * as ordersJSON from './data/orders.json';
 
 import './main.scss';
 import './../node_modules/leaflet/dist/leaflet.css';
+import './../node_modules/leaflet.markercluster/dist/MarkerCluster.css';
+import './../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 import L from 'leaflet';
+import 'leaflet.markercluster';
+import 'leaflet.markercluster.placementstrategies';
 
 var monasteries = Object.values(monasteriesJSON);
 var orders = Object.values(ordersJSON);
@@ -40,10 +44,36 @@ var init = () => {
       className: 'map-base-layer-awmc'
     }
   ).addTo(map);
+
+  const clusters = L.markerClusterGroup();
+
+  data
+    .filter(monastery => monastery.valid)
+    .forEach(monastery => {
+      const marker = L.circleMarker(monastery.ll, {
+        radius: 7,
+        fillColor: monastery.gender === 'male' ? 'blue' : 'red',
+        fillOpacity: 1,
+        stroke: true,
+        color: 'black',
+        weight: 1.5
+      });
+      clusters.addLayer(marker);
+    });
+
+  clusters.addTo(map);
 };
 
 var prepareData = (): Array<Object> => {
-  monasteries.forEach(monastery => (monastery.orders = []));
+  monasteries
+    .filter(m => m)
+    .forEach(monastery => {
+      monastery.orders = [];
+      monastery.valid = !isNaN(parseFloat(monastery.x));
+      if (monastery.valid) {
+        monastery.ll = [parseFloat(monastery.y), parseFloat(monastery.x)];
+      }
+    });
   orders.forEach(order => {
     const orderMonasteryId = order.monastery_id;
 

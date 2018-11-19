@@ -21,6 +21,7 @@ if (document.body) {
 
 var data = [];
 var map = false;
+
 var init = () => {
   // crate map div
   const mapEl = document.createElement('div');
@@ -45,7 +46,22 @@ var init = () => {
     }
   ).addTo(map);
 
-  const clusters = L.markerClusterGroup();
+  const clusters = L.markerClusterGroup({
+    iconCreateFunction: cluster => {
+      const markers = cluster.getAllChildMarkers();
+      const single = markers.length === 1;
+
+      return L.divIcon({
+        html:
+          '<div class="marker-icon-wrapper"><span>' +
+          markers.length +
+          '</span></div>',
+        className:
+          'marker-icon ' + (single ? 'marker-single' : 'marker-cluster'),
+        iconSize: L.point(15, 15)
+      });
+    }
+  });
 
   data
     .filter(monastery => monastery.valid)

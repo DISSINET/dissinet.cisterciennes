@@ -42,7 +42,8 @@ var init = () => {
   // initialise map
   map = L.map('map', {
     center: [47, 2],
-    zoom: 7
+    zoom: 7,
+    maxZoom: 12
   });
 
   // add a awmc tilelayer
@@ -52,11 +53,11 @@ var init = () => {
       attribution: "<a href='http://awmc.unc.edu/wordpress/'>awmc</a>",
       className: 'map-base-layer map-base-layer-awmc'
     }
-    ).addTo(map);
-    L.tileLayer(
-      'https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}',
-      {
-        className: 'map-base-layer map-base-layer-stamen'
+  ).addTo(map);
+  L.tileLayer(
+    'https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}',
+    {
+      className: 'map-base-layer map-base-layer-stamen',
       attribution:
         'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       subdomains: 'abcd',
@@ -72,6 +73,9 @@ var init = () => {
     female: 1
   };
   const clusters = L.markerClusterGroup({
+    showCoverageOnHover: false,
+    spiderLegPolylineOptions: { opacity: 0 },
+
     iconCreateFunction: cluster => {
       const markers = cluster.getAllChildMarkers();
       const single = markers.length === 1;

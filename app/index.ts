@@ -39,14 +39,18 @@ var closeModal = e => {
 var modal =
   '<div class="modal is-active ">' +
   '<div class="modal-background"></div>' +
-  '<div class="modal-card is-primary">' +
-  '<header class="modal-card-head">' +
-  '<p class="modal-card-title">Cistercian monasteries in France</p>' +
-  '</header>' +
+  '<div class="modal-card ">' +
   '<section class="modal-card-body">' +
+  '<p class="title">Cistercian monasteries in France</p>' +
   'Interactive map of Cistercian monasteries in France taken from the <a href="https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France?fbclid=IwAR0AnumWZLXqD1NwnfJBjzi-n-FIIHJFIlvhVd8wetJouUjVwwDJBZrkUe0">wikipedia page</a>.' +
-  'The color of the marker represents the community that occupied the monastery (monks are in blue, nuns are in red, mixed monastery is in yellow).' +
-  '<div style="margin-top: 10px"><button id="continue-button" class="button is-success">continue</button></div>' +
+  'The color of the marker represents the community that occupied the monastery (monks are in <span class="colored" style="color: ' +
+  colors.monks +
+  '">blue</span>, nuns are in <span class="colored" style="color: ' +
+  colors.nuns +
+  '">red</span>, mixed monastery is in <span class="colored" style="color: ' +
+  colors.mixed +
+  '">yellow</span>).' +
+  '<div class="is-pulled-right"style="margin-top: 10px"><button id="continue-button" class="button is-dark">continue</button></div>' +
   '</section>' +
   '</div>';
 
@@ -135,11 +139,11 @@ var init = () => {
       '<div class="heading">' +
       monastery.name +
       // gender
-      ' (<span style="color: ' +
+      ' [<span style="color: ' +
       colors[monastery.gender] +
       '">' +
       monastery.gender +
-      '</span>)' +
+      '</span>]' +
       '</div>' +
       // orders
       '<div class="orders">orders:' +

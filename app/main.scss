@@ -10,6 +10,12 @@
 
 .modal {
   z-index: 10000;
+  .modal-card-body {
+    background-color: lightgrey;
+  }
+  span.colored {
+    font-weight: 800;
+  }
 }
 
 .marker-icon-wrapper {

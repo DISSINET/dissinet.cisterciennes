@@ -50,12 +50,13 @@ var init = () => {
     'http://a.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/{z}/{x}/{y}.png',
     {
       attribution: "<a href='http://awmc.unc.edu/wordpress/'>awmc</a>",
-      className: 'map-base-layer-awmc'
+      className: 'map-base-layer map-base-layer-awmc'
     }
-  ).addTo(map);
-  L.tileLayer(
-    'https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}',
-    {
+    ).addTo(map);
+    L.tileLayer(
+      'https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}',
+      {
+        className: 'map-base-layer map-base-layer-stamen'
       attribution:
         'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       subdomains: 'abcd',

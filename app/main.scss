@@ -8,4 +8,29 @@
 
 .marker-icon-wrapper {
   border: 2px solid black;
+  border-radius: 20px !important;
+}
+
+.map-base-layer {
+  opacity: 0.6 !important;
+}
+
+$color-marker-icon-halo: white;
+$color-marker-icon-radius: 1px;
+.marker-icon-wrapper span {
+  line-height: 32px !important;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 900;
+  font-family: system-ui;
+  text-shadow: 0 0 $color-marker-icon-radius $color-marker-icon-halo,
+    0 0 $color-marker-icon-radius $color-marker-icon-halo,
+    0 0 $color-marker-icon-radius $color-marker-icon-halo,
+    0 0 $color-marker-icon-radius $color-marker-icon-halo,
+    0 0 $color-marker-icon-radius $color-marker-icon-halo,
+    0 0 $color-marker-icon-radius $color-marker-icon-halo,
+    0 0 $color-marker-icon-radius $color-marker-icon-halo,
+    0 0 $color-marker-icon-radius $color-marker-icon-halo,
+    0 0 $color-marker-icon-radius $color-marker-icon-halo,
+    0 0 $color-marker-icon-radius $color-marker-icon-halo;
 }

@@ -6,6 +6,7 @@ import './../node_modules/leaflet/dist/leaflet.css';
 import './../node_modules/leaflet.markercluster/dist/MarkerCluster.css';
 import './../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css';
 
+import chroma from 'chroma-js';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster.placementstrategies';
@@ -21,6 +22,13 @@ if (document.body) {
 
 var data = [];
 var map = false;
+
+var colors = {
+  male: '#2c7bb6',
+  female: '#d7191c',
+  mixed: '#ffffbf'
+};
+var colorScale = chroma.scale([colors.male, colors.mixed, colors.female]);
 
 var init = () => {
   // crate map div
@@ -46,19 +54,33 @@ var init = () => {
     }
   ).addTo(map);
 
+  const genderScore = {
+    male: 0,
+    mixed: 0.5,
+    female: 1
+  };
   const clusters = L.markerClusterGroup({
     iconCreateFunction: cluster => {
       const markers = cluster.getAllChildMarkers();
       const single = markers.length === 1;
 
+      let averageGender = 0;
+      markers.forEach(marker => {
+        averageGender += genderScore[marker.options.gender];
+      });
+
+      const color = colorScale(averageGender / markers.length);
+
       return L.divIcon({
         html:
-          '<div class="marker-icon-wrapper"><span>' +
+          '<div class="marker-icon-wrapper" style="background-color: ' +
+          color +
+          '"><span>' +
           markers.length +
           '</span></div>',
         className:
           'marker-icon ' + (single ? 'marker-single' : 'marker-cluster'),
-        iconSize: L.point(15, 15)
+        iconSize: L.point(40, 40)
       });
     }
   });
@@ -68,11 +90,12 @@ var init = () => {
     .forEach(monastery => {
       const marker = L.circleMarker(monastery.ll, {
         radius: 7,
-        fillColor: monastery.gender === 'male' ? 'blue' : 'red',
+        fillColor: colors[monastery.gender],
         fillOpacity: 1,
         stroke: true,
         color: 'black',
-        weight: 1.5
+        weight: 1.5,
+        gender: monastery.gender
       });
       clusters.addLayer(marker);
     });

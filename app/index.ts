@@ -119,8 +119,7 @@ var init = () => {
     showCoverageOnHover: false,
     spiderLegPolylineOptions: { opacity: 0 },
 
-    iconCreateFunction: (cluster, ci) => {
-      console.log(cluster);
+    iconCreateFunction: cluster => {
       const markers = cluster.getAllChildMarkers();
       const single = markers.length === 1;
 
@@ -168,10 +167,13 @@ var init = () => {
         })
         .attr('class', 'arc');
 
+      svg.append('circle').attr('r', 2 + (radius + m) / 2);
+
       g.append('path').attr('d', arc(radius));
       svg
         .append('text')
         .text(markers.length)
+        .style('fill', 'white')
         .attr('class', 'cluster-text')
         .attr('dy', 4);
 

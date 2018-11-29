@@ -41,7 +41,7 @@ request(url, function(err, resp, html) {
       .map((ri, row) => {
         // if (ri < 10) {
         // row
-        let gender = "mixed";
+        let gender = "double";
         const color = $(row).css("background");
         if (color) {
           if (color.substr(1, 2) === "FF") {

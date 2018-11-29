@@ -31,9 +31,9 @@ var map = false;
 var colors = {
   monks: "#00B06E",
   nuns: "#BF0090",
-  mixed: "#FFC500"
+  double: "#FFC500"
 };
-var colorScale = chroma.scale([colors.monks, colors.mixed, colors.nuns]);
+var colorScale = chroma.scale([colors.monks, colors.double, colors.nuns]);
 
 var closeModal = e => {
   e.preventDefault();
@@ -55,7 +55,7 @@ var modal =
   '">purple</span>, male monasteries in  <span class="colored" style="color: ' +
   colors.monks +
   '">green</span>, double monasteries in <span class="colored" style="color: ' +
-  colors.mixed +
+  colors.double +
   '">yellow</span> ).</p>' +
   "<p>You can switch between two base layers: the <a target='_blank' href='http://awmc.unc.edu/wordpress/'>AWMC</a> map and <a target='_blank' href=''>the Cassini</a> map.</p></br>" +
   "<p>Recommended citation: </br><a target='_blank' href='https://github.com/adammertel'>MERTEL, A.</a>, <a target='_blank' href='http://www.david-zbiral.cz/'>D. ZBÍRAL</a> (2018). Christian baptisteries: interactive map (version ???). Available online at <http://hde.geogr.muni.cz/cisterciansfrance/>.</p>" +
@@ -110,7 +110,7 @@ var init = () => {
 
   const genderScore = {
     monks: 0,
-    mixed: 0.5,
+    double: 0.5,
     nuns: 1
   };
 
@@ -139,7 +139,7 @@ var init = () => {
       let genders = [
         { name: "monks", number: 0 },
         { name: "nuns", number: 0 },
-        { name: "mixed", number: 0 }
+        { name: "double", number: 0 }
       ];
       markers.forEach(marker => {
         const gender = genders.find(g => g.name === marker.options.gender);

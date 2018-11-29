@@ -57,13 +57,16 @@ var modal =
   version +
   ")</span></p><div class='text'>" +
   '<p>Interactive map of Cistercian monasteries in France since the beginnings until present day based on the list of Cistercian monasteries available at <a target="_blank" href="https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France?fbclid=IwAR0AnumWZLXqD1NwnfJBjzi-n-FIIHJFIlvhVd8wetJouUjVwwDJBZrkUe0">wikipedia page</a>.</p></br>' +
-  '<p>The color of the marker represents gender (female monasteries are displayed in <span class="colored" style="color: ' +
+  "<p>The color of the marker represents gender:</p><ul>" +
+  '<li>female monasteries are displayed in <span class="colored" style="color: ' +
   colors.nuns +
-  '">purple</span>, male monasteries in  <span class="colored" style="color: ' +
+  '">purple</span>,</li>' +
+  '<li>male monasteries in  <span class="colored" style="color: ' +
   colors.monks +
-  '">green</span>, double monasteries in <span class="colored" style="color: ' +
+  '">green</span>,</li>' +
+  '<li>and double monasteries in <span class="colored" style="color: ' +
   colors.double +
-  '">yellow</span> ).</p>' +
+  '">yellow</span>.</li></ul></br >' +
   "<p>You can switch between two base layers: the <a target='_blank' href='http://awmc.unc.edu/wordpress/'>AWMC</a> map and <a target='_blank' href=''>the Cassini</a> map.</p></br>" +
   "<p>Recommended citation: </br><a target='_blank' href='https://github.com/adammertel'>MERTEL, A.</a>, <a target='_blank' href='http://www.david-zbiral.cz/'>D. ZBÍRAL</a> (2018). Christian baptisteries: interactive map (version ???). Available online at <http://hde.geogr.muni.cz/cisterciansfrance/>.</p>" +
   "</div>" +

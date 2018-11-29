@@ -82,8 +82,8 @@ var init = () => {
     center: [47, 2],
     zoom: 7,
     maxZoom: 12,
-    minZoom: 5,
-    maxBounds: [[40, -10], [60, 10]]
+    minZoom: 7,
+    maxBounds: [[38, -10], [55, 15]]
   });
 
   // add a awmc tilelayer

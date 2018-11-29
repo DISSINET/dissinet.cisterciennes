@@ -1,26 +1,27 @@
-import * as monasteriesJSON from './data/monasteries.json';
-import * as ordersJSON from './data/orders.json';
+import * as monasteriesJSON from "./data/monasteries.json";
+import * as ordersJSON from "./data/orders.json";
 
-import './main.scss';
-import './../node_modules/leaflet/dist/leaflet.css';
-import './../node_modules/leaflet.markercluster/dist/MarkerCluster.css';
-import './../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css';
+import "./main.scss";
+import "./../node_modules/leaflet/dist/leaflet.css";
+import "./../node_modules/leaflet.markercluster/dist/MarkerCluster.css";
+import "./../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css";
 
-import chroma from 'chroma-js';
-import L from 'leaflet';
-import * as d3 from 'd3';
-import 'leaflet.markercluster';
-import 'leaflet.markercluster.placementstrategies';
+import chroma from "chroma-js";
+import L from "leaflet";
+import * as d3 from "d3";
+import "leaflet.markercluster";
+import "leaflet.markercluster.placementstrategies";
 
 var monasteries = Object.values(monasteriesJSON);
 var orders = Object.values(ordersJSON);
+var version = "1.0.0";
 
 console.log(monasteries);
 
-if (document.body && document.getElementById('map')) {
-  document.getElementById('map').outerHTML = '';
-  if (document.getElementById('welcome')) {
-    document.getElementById('welcome').outerHTML = '';
+if (document.body && document.getElementById("map")) {
+  document.getElementById("map").outerHTML = "";
+  if (document.getElementById("welcome")) {
+    document.getElementById("welcome").outerHTML = "";
   }
 }
 
@@ -28,16 +29,16 @@ var data = [];
 var map = false;
 
 var colors = {
-  monks: '#2c7bb6',
-  nuns: '#d7191c',
-  mixed: '#ffffbf'
+  monks: "#00B06E",
+  nuns: "#BF0090",
+  mixed: "#FFC500"
 };
 var colorScale = chroma.scale([colors.monks, colors.mixed, colors.nuns]);
 
 var closeModal = e => {
   e.preventDefault();
-  document.getElementById('welcome').outerHTML = '';
-  document.getElementById('pie').innerHTML = '';
+  document.getElementById("welcome").outerHTML = "";
+  document.getElementById("pie").innerHTML = "";
 };
 
 var modal =
@@ -45,34 +46,39 @@ var modal =
   '<div class="modal-background"></div>' +
   '<div class="modal-card ">' +
   '<section class="modal-card-body">' +
-  '<p class="title">Cistercian monasteries in France</p>' +
-  'Interactive map of Cistercian monasteries in France taken from the <a href="https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France?fbclid=IwAR0AnumWZLXqD1NwnfJBjzi-n-FIIHJFIlvhVd8wetJouUjVwwDJBZrkUe0">wikipedia page</a>.' +
-  'The color of the marker represents the community that occupied the monastery (monks are in <span class="colored" style="color: ' +
-  colors.monks +
-  '">blue</span>, nuns are in <span class="colored" style="color: ' +
+  '<p class="title">Cistercian monasteries in France <span class="version">(v ' +
+  version +
+  ")</span></p><div class='text'>" +
+  '<p>Interactive map of Cistercian monasteries in France since the beginnings until present day based on the list of Cistercian monasteries available at <a target="_blank" href="https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France?fbclid=IwAR0AnumWZLXqD1NwnfJBjzi-n-FIIHJFIlvhVd8wetJouUjVwwDJBZrkUe0">wikipedia page</a>.</p></br>' +
+  '<p>The color of the marker represents gender (female monasteries are displayed in <span class="colored" style="color: ' +
   colors.nuns +
-  '">red</span>, mixed monastery is in <span class="colored" style="color: ' +
+  '">purple</span>, male monasteries in  <span class="colored" style="color: ' +
+  colors.monks +
+  '">green</span>, double monasteries in <span class="colored" style="color: ' +
   colors.mixed +
-  '">yellow</span>).' +
+  '">yellow</span> ).</p>' +
+  "<p>You can switch between two base layers: the <a target='_blank' href='http://awmc.unc.edu/wordpress/'>AWMC</a> map and <a target='_blank' href=''>the Cassini</a> map.</p></br>" +
+  "<p>Recommended citation: </br><a target='_blank' href='https://github.com/adammertel'>MERTEL, A.</a>, <a target='_blank' href='http://www.david-zbiral.cz/'>D. ZBÍRAL</a> (2018). Christian baptisteries: interactive map (version ???). Available online at <http://hde.geogr.muni.cz/cisterciansfrance/>.</p>" +
+  "</div>" +
   '<div class="is-pulled-right"style="margin-top: 10px"><button id="continue-button" class="button is-dark">continue</button></div>' +
-  '</section>' +
-  '</div>';
+  "</section>" +
+  "</div>";
 
 var init = () => {
   // crate map div
-  const mapEl = document.createElement('div');
-  mapEl.setAttribute('id', 'map');
+  const mapEl = document.createElement("div");
+  mapEl.setAttribute("id", "map");
   document.body.appendChild(mapEl);
 
-  const welcomeEl = document.createElement('div');
-  welcomeEl.setAttribute('id', 'welcome');
+  const welcomeEl = document.createElement("div");
+  welcomeEl.setAttribute("id", "welcome");
   document.body.appendChild(welcomeEl);
   welcomeEl.innerHTML = modal;
-  document.getElementById('continue-button').onclick = closeModal;
+  document.getElementById("continue-button").onclick = closeModal;
 
   data = prepareData();
   // initialise map
-  map = L.map('map', {
+  map = L.map("map", {
     center: [47, 2],
     zoom: 7,
     maxZoom: 12,
@@ -82,23 +88,23 @@ var init = () => {
 
   // add a awmc tilelayer
   L.tileLayer(
-    'http://a.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/{z}/{x}/{y}.png',
+    "http://a.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/{z}/{x}/{y}.png",
     {
       attribution: "<a href='http://awmc.unc.edu/wordpress/'>awmc</a>",
-      className: 'map-base-layer map-base-layer-awmc'
+      className: "map-base-layer map-base-layer-awmc"
     }
   ).addTo(map);
 
   L.tileLayer(
-    'https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}',
+    "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}",
     {
-      className: 'map-base-layer map-base-layer-stamen',
+      className: "map-base-layer map-base-layer-stamen",
       attribution:
         'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      subdomains: 'abcd',
+      subdomains: "abcd",
       minZoom: 0,
       maxZoom: 20,
-      ext: 'png'
+      ext: "png"
     }
   ).addTo(map);
 
@@ -131,9 +137,9 @@ var init = () => {
       const svgSize = (radius + m) * 2;
 
       let genders = [
-        { name: 'monks', number: 0 },
-        { name: 'nuns', number: 0 },
-        { name: 'mixed', number: 0 }
+        { name: "monks", number: 0 },
+        { name: "nuns", number: 0 },
+        { name: "mixed", number: 0 }
       ];
       markers.forEach(marker => {
         const gender = genders.find(g => g.name === marker.options.gender);
@@ -143,47 +149,47 @@ var init = () => {
       });
       const arcs = pie(genders);
 
-      const wrapperEl = document.getElementById('pie');
-      const svgEl = document.createElement('svg');
-      svgEl.setAttribute('id', 'pie' + cluster._leaflet_id);
+      const wrapperEl = document.getElementById("pie");
+      const svgEl = document.createElement("svg");
+      svgEl.setAttribute("id", "pie" + cluster._leaflet_id);
       //wrapperEl.appendChild(svgEl);
 
       const svg = d3
         .select(svgEl)
-        .attr('width', svgSize)
-        .attr('height', svgSize)
-        .append('g')
+        .attr("width", svgSize)
+        .attr("height", svgSize)
+        .append("g")
         .attr(
-          'transform',
-          'translate(' + svgSize / 2 + ', ' + svgSize / 2 + ')'
+          "transform",
+          "translate(" + svgSize / 2 + ", " + svgSize / 2 + ")"
         );
 
-      svg.append('circle').attr('r', radius + m);
+      svg.append("circle").attr("r", radius + m);
 
       const g = svg
-        .selectAll('arc')
+        .selectAll("arc")
         .data(arcs)
         .enter()
-        .append('g')
-        .style('fill', d => {
+        .append("g")
+        .style("fill", d => {
           return colors[d.data.name];
         })
-        .attr('class', 'arc');
+        .attr("class", "arc");
 
-      svg.append('circle').attr('r', 2 + (radius + m) / 2);
+      svg.append("circle").attr("r", 2 + (radius + m) / 2);
 
-      g.append('path').attr('d', arc(radius));
+      g.append("path").attr("d", arc(radius));
       svg
-        .append('text')
+        .append("text")
         .text(markers.length)
-        .style('fill', 'white')
-        .attr('class', 'cluster-text')
-        .attr('dy', 4);
+        .style("fill", "white")
+        .attr("class", "cluster-text")
+        .attr("dy", 4);
 
       return L.divIcon({
         html: svgEl.outerHTML,
         className:
-          'marker-icon ' + (single ? 'marker-single' : 'marker-cluster'),
+          "marker-icon " + (single ? "marker-single" : "marker-cluster"),
         iconSize: L.point(radius * 2, radius * 2)
       });
     }
@@ -200,8 +206,8 @@ var init = () => {
       colors[monastery.gender] +
       '">' +
       monastery.gender +
-      '</span>]' +
-      '</div>' +
+      "</span>]" +
+      "</div>" +
       // orders
       '<div class="orders">orders:' +
       monastery.orders
@@ -209,17 +215,17 @@ var init = () => {
           return (
             '<div class="order"> - ' +
             order.name +
-            ' (' +
+            " (" +
             order.from +
-            '-' +
+            "-" +
             order.to +
-            ')' +
-            '</div>'
+            ")" +
+            "</div>"
           );
         })
-        .join('') +
-      '</div>' +
-      '</div>'
+        .join("") +
+      "</div>" +
+      "</div>"
     );
   };
 
@@ -231,7 +237,7 @@ var init = () => {
         fillColor: colors[monastery.gender],
         fillOpacity: 1,
         stroke: true,
-        color: 'black',
+        color: "black",
         weight: 1.5,
         gender: monastery.gender
       }).bindPopup(createPopup(monastery));

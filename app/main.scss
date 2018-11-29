@@ -1,4 +1,4 @@
-@import '~bulma/bulma';
+@import "~bulma/bulma";
 
 #map {
   position: absolute;
@@ -12,6 +12,16 @@
   z-index: 10000;
   .modal-card-body {
     background-color: lightgrey;
+    font-size: 100%;
+    .title {
+      font-size: 2em;
+      .version {
+        font-size: 0.7em;
+      }
+    }
+    .text {
+      font-size: 1em;
+    }
   }
   span.colored {
     font-weight: 800;

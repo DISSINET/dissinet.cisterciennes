@@ -39,6 +39,13 @@ var closeModal = e => {
   e.preventDefault();
   document.getElementById("welcome").outerHTML = "";
   document.getElementById("pie").innerHTML = "";
+  if (document.getElementById("legend")) {
+    document.getElementById("legend").innerHTML = "";
+  }
+
+  const legendEl = document.createElement("div");
+  document.body.appendChild(legendEl);
+  legendEl.innerHTML = legend;
 };
 
 var modal =
@@ -63,6 +70,21 @@ var modal =
   '<div class="is-pulled-right"style="margin-top: 10px"><button id="continue-button" class="button is-dark">continue</button></div>' +
   "</section>" +
   "</div>";
+
+var legend =
+  '<div class="legend">' +
+  '<p class="title">Cistercian monasteries in France <span class="version"> (v ' +
+  version +
+  ")</span></p><div class='text'>" +
+  '<p>legend: <span class="colored" style="color: ' +
+  colors.nuns +
+  '">female monasteries</span><span class="colored" style="color: ' +
+  colors.monks +
+  '">male monasteries</span><span class="colored" style="color: ' +
+  colors.double +
+  '">double monasteries</span></p>' +
+  '<p>source: <a target="_blank" href="https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France?fbclid=IwAR0AnumWZLXqD1NwnfJBjzi-n-FIIHJFIlvhVd8wetJouUjVwwDJBZrkUe0">wikipedia page</a></p>';
+"</div>" + "</div>";
 
 var init = () => {
   // crate map div

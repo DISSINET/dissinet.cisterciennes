@@ -8,6 +8,27 @@
   right: 0;
 }
 
+.legend {
+  position: absolute;
+  z-index: 800;
+  top: 10;
+  right: 10;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10;
+  border-radius: 4px;
+  .title {
+    font-size: 1.2em;
+    margin-bottom: 0.5rem;
+    .version {
+      font-size: 0.8em;
+    }
+  }
+  span.colored {
+    display: block;
+    margin-left: 2rem;
+  }
+}
+
 .modal {
   z-index: 10000;
   .modal-card-body {

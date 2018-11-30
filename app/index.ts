@@ -75,7 +75,7 @@ var modal =
   "<p>You can switch between two base layers: the <a target='_blank' href='http://awmc.unc.edu/wordpress/'>AWMC</a> map and <a target='_blank' href=''>the Cassini</a> map. The layer with labels is provided by <a target='_blank' href='http://stamen.com'>Stamen Design</a>.</p></br>" +
   "<p>Recommended citation: </br><a target='_blank' href='https://github.com/adammertel'>MERTEL, A.</a>, <a target='_blank' href='http://www.david-zbiral.cz/'>D. ZBÍRAL</a> (2018). Cistercian monasteries in France: interactive map (version " +
   version +
-  "). Available online at <http://hde.geogr.muni.cz/cisterciansfrance/>.</p>" +
+  "). Available online at <a href='http://hde.geogr.muni.cz/cisterciansfrance/'>http://hde.geogr.muni.cz/cisterciansfrance/</a>.</p>" +
   "</div>" +
   '<div class="is-pulled-right"style="margin-top: 10px"><button id="continue-button" class="button is-dark">continue</button></div>' +
   "</section>" +

@@ -4,7 +4,7 @@ Interactive map of Cistercian monasteries in France, date are taken from [fr.wik
 
 ### Demo
 
-- http://hde.geogr.muni.cz/cisterciennes/
+- http://hde.geogr.muni.cz/cisterciansfrance/
 
 ##### scrap.js
 

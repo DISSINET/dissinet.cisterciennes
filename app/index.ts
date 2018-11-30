@@ -16,6 +16,9 @@ var monasteries = Object.values(monasteriesJSON);
 var orders = Object.values(ordersJSON);
 var version = "1.0.0";
 
+var wikiUrl =
+  "https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France?fbclid=IwAR0AnumWZLXqD1NwnfJBjzi-n-FIIHJFIlvhVd8wetJouUjVwwDJBZrkUe0";
+
 console.log(monasteries);
 
 if (document.body && document.getElementById("map")) {
@@ -56,7 +59,9 @@ var modal =
   '<p class="title">Cistercian monasteries in France <span class="version">(v ' +
   version +
   ")</span></p><div class='text'>" +
-  '<p>Interactive map of Cistercian monasteries in France since the beginnings until present day based on the list of Cistercian monasteries available at <a target="_blank" href="https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France?fbclid=IwAR0AnumWZLXqD1NwnfJBjzi-n-FIIHJFIlvhVd8wetJouUjVwwDJBZrkUe0">wikipedia page</a>.</p></br>' +
+  '<p>Interactive map of Cistercian monasteries in France since the beginnings until present day based on the list of Cistercian monasteries available at <a target="_blank" href="' +
+  wikiUrl +
+  '">Wikipedia page</a>.</p></br>' +
   "<p>The color of the marker represents gender:</p><ul>" +
   '<li>female monasteries are displayed in <span class="colored" style="color: ' +
   colors.nuns +
@@ -67,8 +72,10 @@ var modal =
   '<li>and double monasteries in <span class="colored" style="color: ' +
   colors.double +
   '">yellow</span>.</li></ul></br >' +
-  "<p>You can switch between two base layers: the <a target='_blank' href='http://awmc.unc.edu/wordpress/'>AWMC</a> map and <a target='_blank' href=''>the Cassini</a> map.</p></br>" +
-  "<p>Recommended citation: </br><a target='_blank' href='https://github.com/adammertel'>MERTEL, A.</a>, <a target='_blank' href='http://www.david-zbiral.cz/'>D. ZBÍRAL</a> (2018). Christian baptisteries: interactive map (version ???). Available online at <http://hde.geogr.muni.cz/cisterciansfrance/>.</p>" +
+  "<p>You can switch between two base layers: the <a target='_blank' href='http://awmc.unc.edu/wordpress/'>AWMC</a> map and <a target='_blank' href=''>the Cassini</a> map. The layer with labels is provided by <a target='_blank' href='http://stamen.com'>Stamen Design</a>.</p></br>" +
+  "<p>Recommended citation: </br><a target='_blank' href='https://github.com/adammertel'>MERTEL, A.</a>, <a target='_blank' href='http://www.david-zbiral.cz/'>D. ZBÍRAL</a> (2018). Cistercian monasteries in France: interactive map (version " +
+  version +
+  "). Available online at <http://hde.geogr.muni.cz/cisterciansfrance/>.</p>" +
   "</div>" +
   '<div class="is-pulled-right"style="margin-top: 10px"><button id="continue-button" class="button is-dark">continue</button></div>' +
   "</section>" +
@@ -86,7 +93,9 @@ var legend =
   '">male monasteries</span><span class="colored" style="color: ' +
   colors.double +
   '">double monasteries</span></p>' +
-  '<p>source: <a target="_blank" href="https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France?fbclid=IwAR0AnumWZLXqD1NwnfJBjzi-n-FIIHJFIlvhVd8wetJouUjVwwDJBZrkUe0">wikipedia page</a></p>';
+  '<p>source: <a target="_blank" href="' +
+  wikiUrl +
+  '">Wikipedia page</a></p>';
 "</div>" + "</div>";
 
 var init = () => {

@@ -72,7 +72,7 @@ var modal =
   '<li>and double monasteries in <span class="colored" style="color: ' +
   colors.double +
   '">yellow</span>.</li></ul></br >' +
-  "<p>You can switch between two base layers: the <a target='_blank' href='http://awmc.unc.edu/wordpress/'>AWMC</a> map and <a target='_blank' href=''>the Cassini</a> map. The layer with labels is provided by <a target='_blank' href='http://stamen.com'>Stamen Design</a>.</p></br>" +
+  /*"<p>You can switch between two base layers: the <a target='_blank' href='http://awmc.unc.edu/wordpress/'>AWMC</a> map and <a target='_blank' href=''>the Cassini</a> map. The layer with labels is provided by <a target='_blank' href='http://stamen.com'>Stamen Design</a>.</p></br>" + */
   "<p>Recommended citation: </br><a target='_blank' href='https://github.com/adammertel'>MERTEL, A.</a>, <a target='_blank' href='http://www.david-zbiral.cz/'>D. ZBÍRAL</a> (2018). Cistercian monasteries in France: interactive map (version " +
   version +
   "). Available online at <a href='http://hde.geogr.muni.cz/cisterciansfrance/'>http://hde.geogr.muni.cz/cisterciansfrance/</a>.</p>" +
@@ -86,13 +86,13 @@ var legend =
   '<p class="title">Cistercian monasteries in France <span class="version"> (v ' +
   version +
   ")</span></p><div class='text'>" +
-  '<p>legend: <span class="colored" style="color: ' +
+  '<p>legend: <span class="colored"><span class="circle" style="background: ' +
   colors.nuns +
-  '">female monasteries</span><span class="colored" style="color: ' +
+  '"></span>female monasteries</span><span class="colored" ><span class="circle" style="background: ' +
   colors.monks +
-  '">male monasteries</span><span class="colored" style="color: ' +
+  '"></span>male monasteries</span><span class="colored" ><span class="circle" style="background: ' +
   colors.double +
-  '">double monasteries</span></p>' +
+  '"></span>double monasteries</span></p>' +
   '<p>source: <a target="_blank" href="' +
   wikiUrl +
   '">Wikipedia page</a></p>';

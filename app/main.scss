@@ -8,6 +8,8 @@
   right: 0;
 }
 
+$legend-circle-size: 8px;
+
 .legend {
   position: absolute;
   z-index: 800;
@@ -26,6 +28,16 @@
   span.colored {
     display: block;
     margin-left: 2rem;
+    .circle {
+      width: $legend-circle-size * 2;
+      height: $legend-circle-size * 2;
+      border-radius: $legend-circle-size;
+      background: red;
+      border: 1.5px solid black;
+      display: inline-block;
+      margin: 0rem 0.5rem;
+      vertical-align: text-bottom;
+    }
   }
 }
 

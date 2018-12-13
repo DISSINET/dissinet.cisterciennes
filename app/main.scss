@@ -35,10 +35,20 @@ $legend-circle-size: 8px;
       background: red;
       border: 1.5px solid black;
       display: inline-block;
-      margin: 0rem 0.5rem;
+      margin-left: 0.3rem;
       vertical-align: text-bottom;
     }
   }
+}
+span.colored .circle {
+  width: $legend-circle-size * 2;
+  height: $legend-circle-size * 2;
+  border-radius: $legend-circle-size;
+  background: red;
+  border: 1.5px solid black;
+  display: inline-block;
+  margin: 0rem 0.5rem;
+  vertical-align: text-bottom;
 }
 
 .modal {

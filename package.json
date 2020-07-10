@@ -1,6 +1,6 @@
 {
   "name": "dissinet.cisterciennes",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "scrapping and analysing cisterciennes wiki table",
   "main": "index.js",
   "repository": "git@github.com:adammertel/dissinet.cisterciennes.git",

@@ -2,6 +2,8 @@
 
 Interactive map of Cistercian monasteries in France, data taken from [fr.wikipedia.org](https://fr.wikipedia.org/wiki/Liste_d%27abbayes_cisterciennes_de_France).
 
+<img src="screen.png" />
+
 ### Demo
 
 - http://hde.geogr.muni.cz/cisterciansfrance/

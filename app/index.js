@@ -234,7 +234,7 @@ var init = () => {
         },
     });
 
-    const createPopup = (monastery: {}) => {
+    const createPopup = (monastery) => {
         return (
             '<div class="popup">' +
             // name
@@ -284,7 +284,7 @@ var init = () => {
     clusters.addTo(map);
 };
 
-var prepareData = (): Array<Object> => {
+var prepareData = () => {
     monasteries
         .filter((m) => m)
         .forEach((monastery) => {
